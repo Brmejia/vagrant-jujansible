@@ -1,0 +1,66 @@
+---
+vagrant:
+    required_plugins:
+        - vagrant-vbguest
+vm:
+    box: ubuntu/trusty64
+    box_url: ubuntu/trusty64
+    hostname: ''
+    memory: '2048'
+    cpus: '2'
+    chosen_provider: virtualbox
+    network:
+        private_network: 192.168.56.101
+        bridge_network:
+            install: 0
+            interface_name: 'interface_name'
+        forwarded_port:
+            fp1:
+                host: '9955'
+                guest: '22'
+            fp2:
+                host: '8080'
+                guest: '80'
+    post_up_message: ''
+    provider:
+        virtualbox:
+            modifyvm:
+                natdnshostresolver1: on
+    provision:
+        puppet:
+            manifests_path: puphpet/puppet
+            manifest_file: site.pp
+            module_path: puphpet/puppet/modules
+            options:
+                - '--verbose'
+                - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
+                - '--parser future'
+    synced_folder:
+        sf1:
+            owner: www-data
+            group: www-data
+            source: ./
+            target: /vagrant
+            sync_type: nfs
+            rsync:
+                args:
+                    - '--verbose'
+                    - '--archive'
+                    - '-z'
+                exclude:
+                    - .vagrant/
+                auto: 'false'
+    usable_port_range:
+        start: 10200
+        stop: 10500
+ssh:
+    username: vagrant
+    password: vagrant
+    host: null
+    port: null
+    guest_port: null
+    private_key_path: null
+    keep_alive: true
+    forward_agent: true
+    forward_x11: false
+    shell: 'bash -l'
