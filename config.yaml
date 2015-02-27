@@ -108,7 +108,10 @@ provision:
       mysql:
         root_password: 123
         dbs:
-          - user: shock
+          - database: shock
+            user: shock
             password: shock
-            database: shock
+          - database: cromos
+            user: cromos
+            password: cromos
 
