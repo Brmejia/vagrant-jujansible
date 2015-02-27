@@ -62,9 +62,9 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize [
       "modifyvm", :id,
-      "--name", "default",
-      "--cpus", settings['vm']['cpus'],
-      "--memory", settings['vm']['memory'],
+      "--name", settings['vm']['hostname'],
+      "--cpus", settings['vm']['cpus'].to_i,
+      "--memory", settings['vm']['memory'].to_i,
       "--natdnshostresolver1", "on",
     ]
   end
@@ -77,6 +77,7 @@ Vagrant.configure("2") do |config|
   # Box base settings
   config.vm.box     = settings['vm']['box']
   config.vm.box_url     = settings['vm']['box_url']
+
   # PostUp Message
   if !settings['vm']['post_up_message'].nil?
     config.vm.post_up_message = "#{settings['vm']['post_up_message']}"
@@ -142,7 +143,7 @@ Vagrant.configure("2") do |config|
   end
 
   ##############################################################################
-  #                       SYNCED FOLDERS
+  #                       SSH SETTINGS
   #
   # @see: https://docs.vagrantup.com/v2/vagrantfile/ssh_settings.html
   #
@@ -175,4 +176,28 @@ Vagrant.configure("2") do |config|
     config.ssh.keep_alive = settings['ssh']['keep_alive']
   end
 
+  #############################################################
+  # Ansible provisioning (you need to have ansible installed)
+  #############################################################
+  if which('ansible-playbook')
+    config.vm.provision "ansible" do |ansible|
+      ansible.playbook = settings['provision']['ansible']['playbook']
+      # Temportally disabled. Uncomment for specify the inventory files path
+      if settings['provision']['ansible']['inventory_path'].to_s != ''
+        ansible.inventory_path = settings['provision']['ansible']['inventory_path']
+      end
+
+      # Up to Vagrant 1.4, the Ansible provisioner could potentially connect
+      # (multiple times) to all hosts from the inventory file.
+      if settings['provision']['ansible']['limit'].to_s != ''
+        ansible.limit = settings['provision']['ansible']['limit']
+      end
+
+      ansible.extra_vars = {
+        private_interface: settings['vm']['network']['private_network'],
+        hostname: settings['vm']['hostname'],
+        settings: settings['provision']['ansible']['settings']
+      }
+    end
+  end
 end

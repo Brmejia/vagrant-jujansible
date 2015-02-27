@@ -1,0 +1,10 @@
+---
+- name: Install Nginx
+  sudo: yes
+  apt: pkg=nginx state=latest force=yes
+
+- name: Change default nginx site
+  sudo: yes
+  template: src={{ nginx_template }} dest={{ nginx_vhost_path }}/{{ item.server_name }}.conf
+  with_items: settings.nginx.vhosts
+  notify: Restart nginx

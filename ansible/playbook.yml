@@ -1,0 +1,19 @@
+---
+- hosts: all
+  sudo: true
+  # vars:
+    # servername: myApp.vb www.myApp.vb {{ private_interface }}
+  vars_files:
+    - vars/nginxphp.yml
+    # - vars/mysql.yml
+    # - vars/common.yml
+    # - [ "vars/nginxphp.yml", "vars/ws_defaults.yml" ]
+  roles:
+    - init
+    # - php5-cli
+    - nginx
+    - php5-fpm
+    - mysql
+
+
+
