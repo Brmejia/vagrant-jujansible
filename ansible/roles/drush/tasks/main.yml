@@ -1,0 +1,18 @@
+---
+- name: Check php-pear is installed
+  apt: name=php-pear state=installed
+
+- name: Add drush channel
+  shell: pear channel-discover pear.drush.org || true
+
+- name: Installing Drush
+  shell: pear install -f drush/drush
+
+- name: Installing Console_Table  Pear package
+  shell: pear install -f Console_Table
+
+- name: Installing Remake module
+  shell: drush dl drush_remake -y
+
+- name: Installing Registry Rebuild module
+  shell: drush dl registry_rebuild -y

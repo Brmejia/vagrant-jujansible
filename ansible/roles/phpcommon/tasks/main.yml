@@ -1,0 +1,17 @@
+---
+  - name: Install PHP Packages
+    sudo: yes
+    apt: pkg={{ item }} state=latest
+    with_items: settings.php.packages
+
+  - name: Ensure timezone is set in cli php.ini
+    lineinfile: dest=/etc/php5/cli/php.ini
+                regexp='date.timezone ='
+                line='date.timezone = {{ settings.timezone }}'
+
+  - name: Setting custom php.ini variables
+    lineinfile: dest=/etc/php5/fpm/php.ini
+                regexp='{{ item.key }} ='
+                line='{{ item.key }} = {{ item.value }}'
+    with_dict: settings.php.ini
+    notify: Restart php5-fpm

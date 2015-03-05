@@ -166,6 +166,9 @@ Vagrant.configure("2") do |config|
   if !settings['ssh']['shell'].nil?
     config.ssh.shell = "#{settings['ssh']['shell']}"
   end
+  if !settings['ssh']['private_key_path'].nil?
+    config.ssh.private_key_path = "#{settings['ssh']['private_key_path']}"
+  end
   if !settings['ssh']['forward_agent'].nil?
     config.ssh.forward_agent = settings['ssh']['forward_agent']
   end

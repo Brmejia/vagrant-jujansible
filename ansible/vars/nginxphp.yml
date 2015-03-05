@@ -1,5 +1,6 @@
 ---
 # nginx variables
 
-nginx_vhost_path: /etc/nginx/sites-available
+nginx_available_vhost_path: /etc/nginx/sites-available
+nginx_enabled_vhost_path: /etc/nginx/sites-enabled
 nginx_template: default.tpl

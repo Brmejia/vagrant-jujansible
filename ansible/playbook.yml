@@ -10,10 +10,11 @@
     # - [ "vars/nginxphp.yml", "vars/ws_defaults.yml" ]
   roles:
     - init
-    # - php5-cli
     - nginx
-    - php5-fpm
+    - phpcommon
     - mysql
+    - geerlingguy.git
+    - drush
 
 
 

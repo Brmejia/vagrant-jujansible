@@ -65,7 +65,7 @@ ssh:
   host: null
   port: null
   guest_port: null
-  private_key_path: null
+  # private_key_path: "~/.ssh/id_rsa"
   keep_alive: true
   forward_agent: true
   forward_x11: false
@@ -80,6 +80,24 @@ provision:
 
     settings:
       timezone: "America/Bogota"
+      php:
+        ini:
+          memory_limit: "512M"
+          max_execution_time: "120"
+          realpath_cache_size: "32K"
+          upload_max_filesize: "64M"
+          error_reporting: "E_ALL & ~E_DEPRECATED & ~E_STRICT"
+          display_errors: "On"
+          html_errors: "On"
+          timezone: "America/Bogota"
+        packages:
+          - php5-cli
+          - php5-fpm
+          - php5-mysql
+          - php5-xdebug
+          - php5-curl
+          - php5-memcached
+          - php5-gd
       nginx:
         vhosts:
           - server_name: vagrant.dev

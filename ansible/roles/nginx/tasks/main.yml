@@ -5,6 +5,14 @@
 
 - name: Change default nginx site
   sudo: yes
-  template: src={{ nginx_template }} dest={{ nginx_vhost_path }}/{{ item.server_name }}.conf
+  template: src={{ nginx_template }} dest={{ nginx_available_vhost_path }}/{{ item.server_name }}.conf
+  with_items: settings.nginx.vhosts
+  notify: Restart nginx
+
+- name: Enabling nginx sites.
+  file: >
+    src={{ nginx_available_vhost_path }}/{{ item.server_name }}.conf
+    dest={{ nginx_enabled_vhost_path }}/{{ item.server_name }}.conf
+    state=link
   with_items: settings.nginx.vhosts
   notify: Restart nginx
