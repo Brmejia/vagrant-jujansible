@@ -199,6 +199,7 @@ Vagrant.configure("2") do |config|
       ansible.extra_vars = {
         private_interface: settings['vm']['network']['private_network'],
         hostname: settings['vm']['hostname'],
+        ssh: settings['ssh'],
         settings: settings['provision']['ansible']['settings']
       }
     end

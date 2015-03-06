@@ -13,6 +13,9 @@
       - unzip
       - htop
 
+  - name: Setting shell colors
+    template: src=dot/bash_aliases dest=/home/{{ ssh.username }}/.bash_aliases
+
   - name: Configure the timezone
     sudo: yes
     template: src=timezone.tpl dest=/etc/timezone
