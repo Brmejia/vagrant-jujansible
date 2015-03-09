@@ -93,7 +93,7 @@ Vagrant.configure("2") do |config|
   if settings['vm']['network']['private_network'].to_s != ''
     config.vm.network 'private_network', ip: settings['vm']['network']['private_network']
   end
-  if settings['vm']['network']['bridge_network']['install'].nil?
+  if settings['vm']['network']['bridge_network']['install'].to_i == 1
     config.vm.network 'public_network', bridge: "#{settings['vm']['network']['bridge_network']['interface_name']}"
   end
 
@@ -113,8 +113,8 @@ Vagrant.configure("2") do |config|
   ##############################################################################
   settings['vm']['synced_folder'].each do |i, folder|
     if folder['source'] != '' && folder['target'] != ''
-      sync_owner = !folder['sync_owner'].nil? ? folder['sync_owner'] : 'www-data'
-      sync_group = !folder['sync_group'].nil? ? folder['sync_group'] : 'www-data'
+      sync_owner = !folder['owner'].nil? ? folder['owner'] : 'www-data'
+      sync_group = !folder['group'].nil? ? folder['group'] : 'www-data'
 
       if folder['sync_type'] == 'nfs'
         if Vagrant.has_plugin?('vagrant-bindfs')
