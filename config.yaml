@@ -14,7 +14,7 @@ vm:
     private_network: 192.168.56.101
     bridge_network:
       install: 0
-      interface_name: 'interface_name'
+      interface_name: ''
     forwarded_port:
       fp1:
         host: '9955'
@@ -98,6 +98,8 @@ provision:
           - php5-memcached
           - php5-gd
       nginx:
+        conf:
+          client_max_body_size: "8M"
         vhosts:
           - server_name: vagrant.dev
             server_aliases:

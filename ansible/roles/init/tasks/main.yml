@@ -13,7 +13,7 @@
       - unzip
       - htop
 
-  - name: Setting shell colors
+  - name: Adding bash_alias file
     template: src=dot/bash_aliases dest=/home/{{ ssh.username }}/.bash_aliases
 
   - name: Configure the timezone

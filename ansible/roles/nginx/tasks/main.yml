@@ -3,6 +3,15 @@
   sudo: yes
   apt: pkg=nginx state=latest force=yes
 
+- name: Setting custom nginx.conf variables
+  lineinfile: dest={{ nginx_default_conf_path }}
+              create=yes
+              state=present
+              regexp='{{ item.key }} '
+              line='{{ item.key }} {{ item.value }};'
+  with_dict: settings.nginx.conf
+  notify: Restart nginx
+
 - name: Change default nginx site
   sudo: yes
   template: src={{ nginx_template }} dest={{ nginx_available_vhost_path }}/{{ item.server_name }}.conf
