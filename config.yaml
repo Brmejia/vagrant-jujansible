@@ -33,7 +33,7 @@ vm:
       group: www-data
       source: ./
       target: /vagrant
-      sync_type: default
+      sync_type: nfs
       rsync:
         args:
           - '--verbose'
@@ -47,7 +47,7 @@ vm:
       group: www-data
       source: ./www
       target: /var/www
-      sync_type: default
+      sync_type: nfs
       rsync:
         args:
           - '--verbose'
