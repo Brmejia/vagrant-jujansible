@@ -10,6 +10,9 @@ server {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
+    access_log /var/log/nginx/{{ item.server_name }}.access.log;
+    error_log /var/log/nginx/{{ item.server_name }}.error.log;
+
     error_page 404 /404.html;
 
     error_page 500 502 503 504 /50x.html;
